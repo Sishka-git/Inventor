@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Inventor</string>
+    <string name="result_text_default">Please focus camera to QR code</string>
+    <string name="search">Поиск</string>
+    <string name="navigate_profile">profile</string>
+    <string name="navigate_all_items">all_items</string>
+    <string name="navigate_camera">camera</string>
+    <string name="navigate_inventorization">inventorization</string>
+    <string name="navigate_my_list">my_list</string>
+</resources>
