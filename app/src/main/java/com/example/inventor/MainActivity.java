@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static ClientModel Client;
+    public static ClientModel Client = new ClientModel(1, "Артём", "Артёмов", "Test@mail.ru");
     public static Boolean CameraMode = false;
     public static ItemModel[] items = MockDataBase();
     String search = "";
@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Client = new ClientModel(1, "Артём", "Артёмов", "Test@mail.ru");
         AddList(items);
     }
 
