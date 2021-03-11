@@ -2,19 +2,15 @@ package com.example.inventor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Vibrator;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,7 +24,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -139,7 +134,7 @@ public class CameraActivity extends AppCompatActivity {
                                     } else {
                                         if(!working) {
                                             working = true;
-                                            if (MainActivity.items[target].owner.equals(MainActivity.Client.name)) {
+                                            if (MainActivity.items[target].owner.equals("Артём")) {
                                                 AlertSettingsMyItem();
                                                 ad.show();
                                             } else {
@@ -199,7 +194,7 @@ public class CameraActivity extends AppCompatActivity {
         ad.setMessage("Хотите забрать предмет в личное пользование?");
         ad.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                MainActivity.items[target].owner = MainActivity.Client.name;
+                MainActivity.items[target].owner = "Артём";
                 working = false;
             }
         });

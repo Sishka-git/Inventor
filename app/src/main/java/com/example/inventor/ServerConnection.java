@@ -71,13 +71,13 @@ class ServerConnectionRequest {
         client.newCall(request).enqueue(cl);
     }
 
-    public void EditUser(Callback cl) {
+    public void EditUser(Callback cl, String firstName, String secondName) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("firstName","test12345")
-                .addFormDataPart("lastName","test123")
+                .addFormDataPart("firstName", firstName)
+                .addFormDataPart("lastName", secondName)
                 .build();
         Request request = new Request.Builder()
                 .url("http://192.168.0.2:55337/api/User/EditUser/1")

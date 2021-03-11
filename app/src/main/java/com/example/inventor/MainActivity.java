@@ -23,8 +23,8 @@ import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static int idInventory;
     public static String token = "";
-    public static ClientModel Client;
     public static Boolean CameraMode = false;
     //public static String url = "https://jsonplaceholder.typicode.com/todos/1"; //https://192.168.0.2:55337";
     String search = "";
@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Client = new ClientModel(1, "Артём", "Артёмов", "Test@mail.ru");
         req.login(login);
     }
 
