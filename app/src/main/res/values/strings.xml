@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Inventor</string>
-    <string name="result_text_default">Please focus camera to QR code</string>
+    <string name="result_text_default">Please focus camera on QR code</string>
     <string name="search">Поиск</string>
     <string name="navigate_profile">profile</string>
     <string name="navigate_all_items">all_items</string>

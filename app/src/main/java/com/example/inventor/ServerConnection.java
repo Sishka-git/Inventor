@@ -35,12 +35,12 @@ class ServerConnectionRequest {
         client.newCall(request).enqueue(cl);
     }
 
-    public void InventoryList(Callback cl) {
+    public void InventoryList(Callback cl, int invId) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/1")
+                .url("http://192.168.0.2:55337/api/Inventory/" + invId)
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -98,13 +98,13 @@ class ServerConnectionRequest {
         client.newCall(request).enqueue(cl);
     }
     //2
-    public void CheckItem(Callback cl) {
+    public void CheckItem(Callback cl, String invNum, int invId) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("inventoryNumber","1")
-                .addFormDataPart("inventoryReportId","1")
+                .addFormDataPart("inventoryNumber", invNum)
+                .addFormDataPart("inventoryReportId", "" + invId)
                 .build();
         Request request = new Request.Builder()
                 .url("http://192.168.0.2:55337/api/Inventory/CheckItem")
@@ -114,11 +114,11 @@ class ServerConnectionRequest {
         client.newCall(request).enqueue(cl);
     }
     //3
-    public void EndInventory(Callback cl) {
+    public void EndInventory(Callback cl, int invId) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/EndInventory/1")
+                .url("http://192.168.0.2:55337/api/Inventory/EndInventory/" + invId)
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();

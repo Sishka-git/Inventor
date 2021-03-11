@@ -30,17 +30,6 @@ public class MainActivity extends AppCompatActivity {
     String search = "";
     public static ServerConnectionRequest req = new ServerConnectionRequest();
     public static ItemModel[] items;
-    public static int searhItemByInventorNum (String str){
-        int count = 0;
-        for (ItemModel item : items){
-            if(Integer.toString(item.inventNum).equals(str)){
-                return count;
-            }
-            count++;
-        }
-
-        return -1;//Не найден
-    }
 
 
     @Override

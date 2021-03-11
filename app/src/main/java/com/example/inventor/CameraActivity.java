@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -24,6 +25,10 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 import java.util.Timer;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -120,21 +125,20 @@ public class CameraActivity extends AppCompatActivity {
                             //Create vibrate
                             //Vibrator vibrator = (Vibrator)getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                             //vibrator.vibrate(1000);
-///////////////////////////////  qrcodes.valueAt(0).displayValue
-                            target = MainActivity.searhItemByInventorNum(qrcodes.valueAt(0).displayValue);
-
+                            target = InventorizationActivityStart.searhItemByInventorNum(qrcodes.valueAt(0).displayValue);
+                            txtResult.setText("QR опознан, инвентарный номер: " + qrcodes.valueAt(0).displayValue);
                                 if (target != -1) {
                                     if (MainActivity.CameraMode) {
-                                        if (MainActivity.items[target].status == 1) {
+                                        if (InventorizationActivityStart.items[target].status == 1) {
                                             txtResult.setText("Предмет проверен, инвентарный номер: " + qrcodes.valueAt(0).displayValue);
                                         } else {
+                                            MainActivity.req.CheckItem(CheckItem, qrcodes.valueAt(0).displayValue, MainActivity.idInventory);
                                             txtResult.setText("Предмет найден, инвентарный номер: " + qrcodes.valueAt(0).displayValue);
-                                            MainActivity.items[target].status = 1;
                                         }
                                     } else {
                                         if(!working) {
                                             working = true;
-                                            if (MainActivity.items[target].owner.equals("Артём")) {
+                                            if (InventorizationActivityStart.items[target].owner.equals("заглушка")) {
                                                 AlertSettingsMyItem();
                                                 ad.show();
                                             } else {
@@ -145,12 +149,6 @@ public class CameraActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     txtResult.setText("Предмет не найдет: " + qrcodes.valueAt(0).displayValue);
-                                    //mTimer.schedule(new TimerTask() {
-                                    //    @Override
-                                    //   public void run() {
-                                    //       txtResult.setText("Please focus camera to QR code");
-                                    //    }
-                                    //}, 5000);
                                 }
                             }
 ////////////////////////////////////
@@ -160,9 +158,25 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
+    private final Callback CheckItem = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("Test", "bad request GetUser: " + e);
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.isSuccessful()) {
+                InventorizationActivityStart.items[target].status = 1;
+            } else {
+                Log.d("Test", "erRequest CheckItem: " + response.toString());
+            }
+        }
+    };
+
     private  void AlertSettingsMyItem(){
         ad = new AlertDialog.Builder(CameraActivity.this);
-        ad.setTitle("Объект: " + MainActivity.items[target].name);
+        ad.setTitle("Объект: " + InventorizationActivityStart.items[target].name);
         ad.setMessage("Что вы хотите сделать?");
         ad.setPositiveButton("Изменить Месторасположения", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
@@ -190,11 +204,11 @@ public class CameraActivity extends AppCompatActivity {
 
     private  void AlertSettingsItem(){
         ad = new AlertDialog.Builder(CameraActivity.this);
-        ad.setTitle("Объект: " + MainActivity.items[target].name);
+        ad.setTitle("Объект: " + InventorizationActivityStart.items[target].name);
         ad.setMessage("Хотите забрать предмет в личное пользование?");
         ad.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                MainActivity.items[target].owner = "Артём";
+                InventorizationActivityStart.items[target].owner = "заглушка";
                 working = false;
             }
         });

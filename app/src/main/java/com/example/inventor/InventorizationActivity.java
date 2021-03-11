@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,14 +43,46 @@ public class InventorizationActivity extends AppCompatActivity {
                     JSONObject json = new JSONObject(response.body().string());
                     Log.d("Test", "Id inventorization is : " + json.getString("id"));
                     MainActivity.idInventory = json.getInt("id");
-                    Intent intent = new Intent(getApplicationContext(), InventorizationActivityStart.class);
-                    startActivity(intent);
-                    finish();
+                    MainActivity.req.InventoryList(InvList, MainActivity.idInventory);
                 } catch (JSONException e) {
                     Log.d("Test", "erToJson Start: " + e);
                     e.printStackTrace();
                 }
             }else {Log.d("Test", "erRequest Start: " + response.toString());}
+        }
+    };
+
+    private final Callback InvList = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("Test", "bad request GetUser: " + e);
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.isSuccessful()) {
+                //достаём отправленные данные
+                try {
+                    JSONArray itemsJson = new JSONArray(response.body().string());
+                    ItemModel[] list = new ItemModel[itemsJson.length()];
+
+                    for (int i = 0; i < itemsJson.length(); i++) {
+                        JSONObject item = itemsJson.getJSONObject(i);
+                        //"roomId":1 "userId":1////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                        list[i] = new ItemModel(item.getInt("id"),item.getString("name"), "Пока заглушка для location", item.getInt("inventoryNumber"),"Пока загушка для owner", item.getString("description"));
+                    }
+                    InventorizationActivityStart.items = list;
+                    Log.d("test", itemsJson.toString());
+                    Intent intent = new Intent(getApplicationContext(), InventorizationActivityStart.class);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            } else {
+                Log.d("Test", "erRequest InvList: " + response.toString());
+            }
         }
     };
 

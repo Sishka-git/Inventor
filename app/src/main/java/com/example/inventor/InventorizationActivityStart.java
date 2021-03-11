@@ -1,35 +1,58 @@
 package com.example.inventor;
 
-import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import android.os.Bundle;
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
-import android.view.Menu;
-import android.view.View;
-import android.widget.Toast;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class InventorizationActivityStart extends AppCompatActivity{
-    ItemModel[] items = MainActivity.items;
+    static ItemModel[] items;
     AlertDialog.Builder ad;
     int target;
+    public static int searhItemByInventorNum (String str){
+        int count = 0;
+        for (ItemModel item : items){
+            if(Integer.toString(item.inventNum).equals(str)){
+                return count;
+            }
+            count++;
+        }
+
+        return -1;//Не найден
+    }
+    private final Callback Stop = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("Test", "bad request GetUser: " + e);
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.isSuccessful()) {
+                MainActivity.CameraMode = false;
+                Intent intent = new Intent (getApplicationContext(), InventorizationActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Log.d("Test", "erRequest CheckItem: " + response.toString());
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +68,7 @@ public class InventorizationActivityStart extends AppCompatActivity{
         ad.setMessage("Добавить предмет в ненайденные?");
         ad.setPositiveButton("Да", new OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                MainActivity.items[target].status = 2;
+                items[target].status = 2;
                 LinearLayout ln = (LinearLayout) findViewById(R.id.wrap_content);
                 ln.removeAllViews();
                 AddList(items);
@@ -91,7 +114,7 @@ public class InventorizationActivityStart extends AppCompatActivity{
             wrap_item.setId(id++);
             wrap_item.setOnLongClickListener(new View.OnLongClickListener() {
                 public boolean onLongClick(View v) {
-                    if (MainActivity.items[v.getId()].status != 1) {
+                    if (items[v.getId()].status != 1) {
                         target = v.getId();
                         ad.show();
                     }
@@ -120,7 +143,7 @@ public class InventorizationActivityStart extends AppCompatActivity{
         wrap_content.addView(button);
         if (count == arr.length){
             wrap_content.removeAllViews();
-            button.setText("Инвантаризация окончена");
+            button.setText("Инвентаризация окончена");
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) button.getLayoutParams();
             params.topMargin = 250;
@@ -128,14 +151,8 @@ public class InventorizationActivityStart extends AppCompatActivity{
         }
     }
 
-    public  void  StopInventorization(View v){
-        for (ItemModel item : items){
-            item.status = 0;
-        }
-        MainActivity.CameraMode = false;
-        Intent intent = new Intent (getApplicationContext(), InventorizationActivity.class);
-        startActivity(intent);
-        finish();
+    public  void StopInventorization(View v){
+        MainActivity.req.EndInventory(Stop, MainActivity.idInventory);
     }
 
     public  void  GoToMyList(View v){
