@@ -9,8 +9,8 @@ import okhttp3.RequestBody;
 
 class ServerConnectionRequest {
     OkHttpClient client = new OkHttpClient();
-    String ip = "192.168.0.2";
-    String port = "55337";
+    String ip = "192.168.0.8";//192.168.0.2
+    String port = "52050";//55337
     public void login(Callback cl) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
