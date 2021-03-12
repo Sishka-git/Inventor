@@ -38,7 +38,7 @@ public class InventorizationActivityStart extends AppCompatActivity{
     private final Callback Stop = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.e("Test", "bad request GetUser: " + e);
+            Log.e("Test", "bad request Stop: " + e);
         }
 
         @Override
@@ -49,7 +49,7 @@ public class InventorizationActivityStart extends AppCompatActivity{
                 startActivity(intent);
                 finish();
             } else {
-                Log.d("Test", "erRequest CheckItem: " + response.toString());
+                Log.d("Test", "erRequest Stop: " + response.toString());
             }
         }
     };

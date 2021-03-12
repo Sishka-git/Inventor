@@ -39,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
             if(response.isSuccessful()) {
                 try {
                     JSONObject json = new JSONObject(response.body().string());
-                    Log.d("test", json.toString());
                     ProfileActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

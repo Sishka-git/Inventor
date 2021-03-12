@@ -72,7 +72,6 @@ public class InventorizationActivity extends AppCompatActivity {
                         list[i] = new ItemModel(item.getInt("id"),item.getString("name"), "Пока заглушка для location", item.getInt("inventoryNumber"),"Пока загушка для owner", item.getString("description"));
                     }
                     InventorizationActivityStart.items = list;
-                    Log.d("test", itemsJson.toString());
                     Intent intent = new Intent(getApplicationContext(), InventorizationActivityStart.class);
                     startActivity(intent);
                 } catch (JSONException e) {

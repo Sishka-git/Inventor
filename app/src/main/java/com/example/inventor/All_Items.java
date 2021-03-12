@@ -32,7 +32,7 @@ public class All_Items extends AppCompatActivity {
     private final Callback GetItems = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.e("Test", "bad request GetUser: " + e);
+            Log.e("Test", "bad request GetItems: " + e);
         }
 
         @Override
@@ -48,22 +48,19 @@ public class All_Items extends AppCompatActivity {
                         list[i] = new ItemModel(item.getInt("id"),item.getString("name"), "Пока заглушка для location", item.getInt("inventoryNumber"),"Пока загушка для owner", item.getString("description"));
                     }
                     items = list;
-                    Log.d("test", itemsJson.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("test", "hmm");
 
 
                 All_Items.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         AddList(items);
-                        Log.d("Test", "living? GetUser");
                     }
                 });
             } else {
-                Log.d("Test", "erRequest GetUser: " + response.toString());
+                Log.d("Test", "erRequest GetItems: " + response.toString());
             }
         }
     };

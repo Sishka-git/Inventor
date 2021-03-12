@@ -9,14 +9,15 @@ import okhttp3.RequestBody;
 
 class ServerConnectionRequest {
     OkHttpClient client = new OkHttpClient();
-
+    String ip = "192.168.0.2";
+    String port = "55337";
     public void login(Callback cl) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType, "{\r\n    \"username\":\"test@mail.ru\",\r\n    \"password\":\"test1\"\r\n}");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/User/Login")
+                .url("http://"+ip+":"+port+"/api/User/Login")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -28,7 +29,7 @@ class ServerConnectionRequest {
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/User/GetUser")
+                .url("http://"+ip+":"+port+"/api/User/GetUser")
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -40,7 +41,7 @@ class ServerConnectionRequest {
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/" + invId)
+                .url("http://"+ip+":"+port+"/api/Inventory/" + invId)
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -52,7 +53,7 @@ class ServerConnectionRequest {
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Items/GetItems")
+                .url("http://"+ip+":"+port+"/api/Items/GetItems")
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -64,7 +65,7 @@ class ServerConnectionRequest {
                 .build();
         MediaType mediaType = MediaType.parse("application/json");
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Items/GetUserItems")
+                .url("http://"+ip+":"+port+"/api/Items/GetUserItems")
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -80,7 +81,7 @@ class ServerConnectionRequest {
                 .addFormDataPart("lastName", secondName)
                 .build();
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/User/EditUser/1")
+                .url("http://"+ip+":"+port+"/api/User/EditUser/1")
                 .method("PUT", body)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -91,7 +92,7 @@ class ServerConnectionRequest {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/StartInventory")
+                .url("http://"+ip+":"+port+"/api/Inventory/StartInventory")
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -107,7 +108,7 @@ class ServerConnectionRequest {
                 .addFormDataPart("inventoryReportId", "" + invId)
                 .build();
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/CheckItem")
+                .url("http://"+ip+":"+port+"/api/Inventory/CheckItem")
                 .method("POST", body)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();
@@ -118,7 +119,7 @@ class ServerConnectionRequest {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("http://192.168.0.2:55337/api/Inventory/EndInventory/" + invId)
+                .url("http://"+ip+":"+port+"/api/Inventory/EndInventory/" + invId)
                 .method("GET", null)
                 .addHeader("Authorization", "Bearer " + MainActivity.token)
                 .build();

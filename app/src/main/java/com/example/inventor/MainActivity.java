@@ -116,18 +116,15 @@ public class MainActivity extends AppCompatActivity {
                         list[i] = new ItemModel(item.getInt("id"),item.getString("name"), "Пока заглушка для location", item.getInt("inventoryNumber"),"Пока загушка для owner", item.getString("description"));
                     }
                     items = list;
-                    Log.d("test", itemsJson.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("test", "hmm");
 
 
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         AddList(items);
-                        Log.d("Test", "living? GetUser");
                     }
                 });
             } else {
